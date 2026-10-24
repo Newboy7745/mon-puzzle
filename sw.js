@@ -1,4 +1,4 @@
-const CACHE = 'mon-puzzle-v10';
+const CACHE = 'mon-puzzle-v11';
 const KEEP = /^mp-voix-/;   // the Arabic voice and the names' sounds keep their own copies
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 self.addEventListener('install', e => {
@@ -11,7 +11,8 @@ self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
-  if (/\/voix-ar-\d+\.bin$/.test(url.pathname) || url.pathname.indexOf('/__voix/') >= 0) return;
+  if (/\/voix-ar-\d+\.bin$/.test(url.pathname) || /\/voix-fr\.mp3$/.test(url.pathname) || url.pathname.indexOf('/__voix/') >= 0) return;
+  if (req.headers.has('range')) return;   // a few bytes asked (the version check): straight from the server, never kept
   // the game page always comes from the server when online (never an old copy), the saved copy only offline
   if (req.mode === 'navigate') {
     e.respondWith(fetch(req.url, { cache: 'no-cache', credentials: 'same-origin' }).then(res => { if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); } return res; })
