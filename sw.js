@@ -1,4 +1,4 @@
-const CACHE = 'mon-puzzle-v17';
+const CACHE = 'mon-puzzle-v18';
 const KEEP = /^mp-voix-/;   // the Arabic voice and the names' sounds keep their own copies
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 self.addEventListener('install', e => {
